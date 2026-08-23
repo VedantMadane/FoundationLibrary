@@ -79,14 +79,14 @@
   <ItemGroup>
     <Compile Include="Extensions\NumberExtension.vb" />
     <Compile Include="Glossary.vb" />
-    <Compile Include="Interfaces\IRepository.vb" />
-    <Compile Include="Interfaces\IService.vb" />
-    <Compile Include="Interfaces\IResults.vb" />
-    <Compile Include="Interfaces\Keys.vb" />
-    <Compile Include="Interfaces\IValidStructure.vb" />
+    <Compile Include="Repositories\IRepository.vb" />
+    <Compile Include="Services\IService.vb" />
+    <Compile Include="Results\IResults.vb" />
+    <Compile Include="Keys\IKeys.vb" />
+    <Compile Include="Validations\IValidStructure.vb" />
     <Compile Include="Extensions\CharExtension.vb" />
     <Compile Include="Extensions\StringExtension.vb" />
-    <Compile Include="Validations\Result.vb" />
+    <Compile Include="Results\Result.vb" />
     <Compile Include="Validations\ValidationStructures.vb" />
     <Compile Include="Validations\ValidException.vb" />
     <Compile Include="ValueOfObject\IBaseValue.vb" />

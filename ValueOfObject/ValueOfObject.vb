@@ -1,6 +1,6 @@
-﻿Imports FoundationLibrary.Interfaces.Keys
+﻿Imports FoundationLibrary.Keys
 Imports FoundationLibrary.ValueOfObject.Bases
-Imports FoundationLibrary.Interfaces.Validation.Structures
+Imports FoundationLibrary.Validation.Structures
 
 Namespace ValueOfObject
     Friend Class ColumnForDB(Of T)
@@ -39,59 +39,6 @@ Namespace ValueOfObject
         Public Property ExceptionChars As Char() Implements IObjectOfString.ExceptionChars
         Public Property Cases As IObjectOfString.EnumsStringCase Implements IObjectOfString.Cases
         Public Property Value As String Implements IHasValue(Of String).Value
-            Get
-                Return Str
-            End Get
-            Set(value As String)
-                Dim Val As String
-                If Cases = IObjectOfString.EnumsStringCase.Up Then
-                    Val = value.ToUpper
-                ElseIf Cases = IObjectOfString.EnumsStringCase.Down Then
-                    Val = value.ToLower
-                Else
-                    Val = value
-                End If
-                If ValidNumber = True Then
-                    For i = 0 To Val.Length - 1
-                        If Char.IsDigit(Val(i)) Then
-                            If ExceptionChars.Contains(Val(i)) = False Then
-                                Throw New Exception("Δεν μπορει να περιέχει αριθμό.")
-                            End If
-                        End If
-                    Next
-                End If
-                If ValidSymbols = True Then
-                    For i = 0 To Val.Length - 1
-                        If Char.IsSymbol(Val(i)) Then
-                            If ExceptionChars.Contains(Val(i)) = False Then
-                                Throw New Exception("Δεν μπορει να περιέχει Σύμβολο.")
-                            End If
-                        End If
-                    Next
-                End If
-                If ValidStrings IsNot Nothing AndAlso ValidStrings.Count > 0 Then
-                    For i = 0 To ValidStrings.Count - 1
-                        If Val.Contains(ValidStrings(i)) Then
-                            Throw New Exception("Δεν επιτρέπονται οι συλαβες." & ValidStrings.ToList.ToString)
-                        End If
-                    Next
-                End If
-                If ValidChars IsNot Nothing AndAlso ValidChars.Count > 0 Then
-                    For i = 0 To ValidChars.Count - 1
-                        If Val.Contains(ValidChars(i)) Then
-                            Throw New Exception("Δεν Επιτρέπονται οι Χαρακτήρες." & ValidChars.ToList.ToString)
-                        End If
-                    Next
-                End If
-                Str = Val
-            End Set
-        End Property
-
-
-
-        Sub New()
-        End Sub
-
         Sub New(sValue As String, Optional OptionValidNumber As Boolean = False, Optional OptionValidSymbol As Boolean = False)
             ColumnForDB = New ColumnForDB(Of String)
             ValidNumber = OptionValidNumber
@@ -111,27 +58,7 @@ Namespace ValueOfObject
         Public Property EndNumber As Integer? Implements IObjectOfInteger.EndNumber
         Public Property ValidNumberChars As Integer() Implements IObjectOfInteger.ValidNumberChars
         Public Property Value As Integer Implements IHasValue(Of Integer).Value
-            Get
-                Return Str
-            End Get
-            Set(value As Integer)
-                If value < StartNumber Then
-                    If ValidNumberChars.Contains(value) = False Then
-                        Throw New Exception("Δεν επιτρέπεται μικρότερος αριθμος από : " & StartNumber)
-                    End If
-                End If
-                If value > EndNumber Then
-                    If ValidNumberChars.Contains(value) = False Then
-                        Throw New Exception("Δεν επιτρέπεται μεγαλύτερος αριθμός από: " & EndNumber)
-                    End If
-                End If
-                Str = value
-            End Set
-        End Property
-        Sub New()
-        End Sub
         Sub New(iValue As Integer, Optional OpStartNumber As Integer? = Nothing, Optional OpEndNumber As Integer? = Nothing)
-
             ColumnForDB = New ColumnForDB(Of Integer)
             Value = iValue
             StartNumber = OpStartNumber
@@ -151,24 +78,6 @@ Namespace ValueOfObject
         Public Property EndDate As Date? Implements IObjectOfDate.EndDate
         Public Property ExceptionsDate As Date() Implements IObjectOfDate.ExceptionsDate
         Public Property Value As Date Implements IHasValue(Of Date).Value
-            Get
-                Return Str
-            End Get
-            Set(value As Date)
-                If value < StarDate Then
-                    If ExceptionsDate.Contains(value) Then
-                        Throw New Exception("Δεν επιτρέπεται η ημερομμηνια να ειναι μικρότερη απο: " & StarDate)
-                    End If
-                End If
-                If value > EndDate Then
-                    If ExceptionsDate.Contains(value) Then
-                        Throw New Exception("Δεν επιτρέπεται η ημερομμηνια να ειναι μεγαλύτερη απο: " & EndDate)
-                    End If
-                End If
-                Str = value
-            End Set
-        End Property
-
         Public Property ValueF As Date Implements IHasValueF(Of Date).ValueF
 
         Sub New()
@@ -192,25 +101,7 @@ Namespace ValueOfObject
         Public Property FormatBoolFalse As String Implements IObjectOfBoolean.FormatBoolFalse
         Public Property Value As Boolean Implements IHasValue(Of Boolean).Value
         Public Property ValueF As String Implements IHasValueF(Of String).ValueF
-            Get
-                If Value = True Then
-                    Return FormatBoolTrue
-                Else
-                    Return FormatBoolFalse
-                End If
-            End Get
-            Set(value As String)
-                If value = FormatBoolTrue Then
-                    Me.Value = True
-                ElseIf value = FormatBoolFalse Then
-                    Me.Value = False
-                Else
-                    Me.Value = value
-                End If
-            End Set
-        End Property
-        Sub New()
-        End Sub
+
         Sub New(bValue As Boolean, Optional FboolTrue As String = Nothing, Optional FboolFalse As String = Nothing)
             Column = New ColumnForDB(Of Boolean)
             Value = bValue
@@ -224,8 +115,8 @@ Namespace ValueOfObject
 
         Public Property Column As IColumnsDB(Of Double) Implements IHasColumnDB(Of IColumnsDB(Of Double)).ColumnDB
         Public Property FormatDouble As String Implements IObjectOfDouble.FormatDouble
-        Public Property StartNumber As Double Implements IObjectOfDouble.StartNumber
-        Public Property EndNumber As Double Implements IObjectOfDouble.EndNumber
+        Public Property StartNumber As Double? Implements IObjectOfDouble.StartNumber
+        Public Property EndNumber As Double? Implements IObjectOfDouble.EndNumber
         Public Property ValidNumber As Double() Implements IObjectOfDouble.ValidNumber
         Public Property Value As Double Implements IHasValue(Of Double).Value
         Public Property ValueF As Double Implements IHasValueF(Of Double).ValueF

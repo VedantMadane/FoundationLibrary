@@ -1,5 +1,5 @@
-﻿Imports FoundationLibrary.Interfaces.Keys
-Imports FoundationLibrary.Interfaces.Repository
+﻿Imports FoundationLibrary.Keys
+Imports FoundationLibrary.Repository
 
 Namespace Repositories
     ''' <summary>
@@ -21,7 +21,7 @@ Namespace Repositories
         End Sub
 
 
-        Public Overridable Function Create(Entity As TEntity) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Create
+        Public Overridable Function Create(Entity As TEntity) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Create
             Dim rnd As New Random
 Again:
             Randomize()
@@ -36,7 +36,7 @@ Again:
             Return New Results.Result(Of TEntity)(True, "Διμιουργήθηκε με επιτυχεία", Entity)
         End Function
 
-        Public Overridable Function Update(PK As Tkey, Entity As TEntity) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Update
+        Public Overridable Function Update(PK As Tkey, Entity As TEntity) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Update
             For i = 0 To Rep.Count - 1
                 If Equals(Rep(i).PrimaryKey, PK) Then
                     Rep(i) = Entity
@@ -46,7 +46,7 @@ Again:
             Return New Results.Result(Of TEntity)(False, "Δεν ήταν επιτυχής η αλλαγή!")
         End Function
 
-        Public Overridable Function Delete(Entity As TEntity) As Interfaces.Results.IResult Implements IRepository(Of Tkey, TEntity).Delete
+        Public Overridable Function Delete(Entity As TEntity) As Results.IResult Implements IRepository(Of Tkey, TEntity).Delete
 
             For i = 0 To Rep.Count - 1
                 If Rep(i).Equals(Entity) Then
@@ -57,7 +57,7 @@ Again:
             Return New Results.Result(False, "Δεν μπόρεσε να διαγραφή!")
         End Function
 
-        Public Overridable Function Read_All() As Interfaces.Results.IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Read_All
+        Public Overridable Function Read_All() As Results.IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Read_All
             Dim Result As New List(Of TEntity)
             For i = 0 To Rep.Count - 1
                 Result.Add(Rep(i))
@@ -67,7 +67,7 @@ Again:
             Return New Results.Result(Of List(Of TEntity))(False, "Δεν υπάρχει εγραφή!")
         End Function
 
-        Public Overridable Function ReadKey(PK As Tkey) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).ReadKey
+        Public Overridable Function ReadKey(PK As Tkey) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).ReadKey
             For i = 0 To Rep.Count - 1
                 If Equals(Rep(i).PrimaryKey, PK) Then
                     Return New Results.Result(Of TEntity)(True, "Βρέθηκε εγραφή!", Rep(i))
@@ -76,7 +76,7 @@ Again:
             Return New Results.Result(Of TEntity)(False, "Δεν Βρέθηκε εγραφή!")
         End Function
 
-        Public Overridable Function ReadAT(Index As Integer) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).ReadAt
+        Public Overridable Function ReadAT(Index As Integer) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).ReadAt
 
 
             If Rep(Index) IsNot Nothing Then
@@ -85,7 +85,7 @@ Again:
             Return New Results.Result(Of TEntity)(True, "Δεν βρέθηκε η εγραφή!")
         End Function
 
-        Public Function Read(Of TCreteria)(Creteria As TCreteria) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
+        Public Function Read(Of TCreteria)(Creteria As TCreteria) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
             For i = 0 To Rep.Count - 1
                 If Match(Rep(i), Creteria) Then
                     Return New Results.Result(Of TEntity)(True, "Βρέθηκε η εγραφή!", Rep(i))
@@ -94,7 +94,7 @@ Again:
             Return New Results.Result(Of TEntity)(True, "Δεν βρέθηκε η εγραφή!")
         End Function
 
-        Public Function Read(Match As Predicate(Of TEntity)) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
+        Public Function Read(Match As Predicate(Of TEntity)) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
             For i = 0 To Rep.Count - 1
                 If Match(Rep(i)) Then
                     Return New Results.Result(Of TEntity)(True, "Βρέθηκε η εγραφή!", Rep(i))
@@ -103,7 +103,7 @@ Again:
             Return New Results.Result(Of TEntity)(False, "Δεν βρέθηκε η εγραφή!")
         End Function
 
-        Public Overridable Function UpdateAT(index As Integer, Entity As TEntity) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).UpdateAt
+        Public Overridable Function UpdateAT(index As Integer, Entity As TEntity) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).UpdateAt
             If Rep(index) IsNot Nothing Then
                 Return New Results.Result(Of TEntity)(True, "Επιτυχής εγραφή!", Rep(index))
             Else
@@ -112,7 +112,7 @@ Again:
             End If
         End Function
 
-        Public Overridable Function Delete(PK As Tkey) As Interfaces.Results.IResult Implements IRepository(Of Tkey, TEntity).Delete
+        Public Overridable Function Delete(PK As Tkey) As Results.IResult Implements IRepository(Of Tkey, TEntity).Delete
             For i = 0 To Rep.Count - 1
                 If Equals(Rep(i).PrimaryKey, PK) Then
                     Rep.RemoveAt(i)
@@ -122,7 +122,7 @@ Again:
             Return New Results.Result(False, "Δεν μπόρεσε να βρεθεί η εγραφή!")
         End Function
 
-        Public Overridable Function DeleteAt(Index As Integer) As Interfaces.Results.IResult Implements IRepository(Of Tkey, TEntity).DeleteAt
+        Public Overridable Function DeleteAt(Index As Integer) As Results.IResult Implements IRepository(Of Tkey, TEntity).DeleteAt
             If Rep(Index) IsNot Nothing Then
                 Rep.RemoveAt(Index)
                 Return New Results.Result(True, "Η διαγραφή ηταν επιτυχής!")
@@ -146,7 +146,7 @@ Again:
             Return PK
         End Function
 
-        Public Function TryCreate(Entity As TEntity, PK As Tkey) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).TryCreate
+        Public Function TryCreate(Entity As TEntity, PK As Tkey) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).TryCreate
             For i = 0 To Rep.Count - 1
                 If Equals(Rep(i).PrimaryKey, PK) Then
                     Return New Results.Result(Of TEntity)(False, "Δεν μπόρει να διμιουργηθει με το ιδιο κλειδί")
@@ -157,7 +157,7 @@ Again:
             Return New Results.Result(Of TEntity)(True, "Διμιουργήθηκε με επιτυχία!", Entity)
         End Function
 
-        Public Function UpdateWhere(Match As Predicate(Of TEntity), Update As Func(Of TEntity, TEntity)) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).UpdateWhere
+        Public Function UpdateWhere(Match As Predicate(Of TEntity), Update As Func(Of TEntity, TEntity)) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).UpdateWhere
             For i = 0 To Rep.Count - 1
                 If Match(Rep(i)) Then
                     Rep(i) = Update(Rep(i))
@@ -167,7 +167,7 @@ Again:
             Return New Results.Result(Of TEntity)(False, "Δεν μπόρεσε να γίνει η αλλαγή!")
         End Function
 
-        Public Function Search(Of TCreteria)(Creteria As TCreteria) As Interfaces.Results.IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
+        Public Function Search(Of TCreteria)(Creteria As TCreteria) As Results.IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
             Dim Result As New List(Of TEntity)
             For i = 0 To Rep.Count - 1
                 If Match(Rep(i), Creteria) Then Result.Add(Rep(i))
@@ -176,7 +176,7 @@ Again:
             Return New Results.Result(Of List(Of TEntity))(False, "Δεν βρέθηκαν εγραφές!")
         End Function
 
-        Public Function Search(Match As Predicate(Of TEntity)) As Interfaces.Results.IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
+        Public Function Search(Match As Predicate(Of TEntity)) As Results.IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
             Dim Result As New List(Of TEntity)
             For i = 0 To Rep.Count - 1
                 If Match(Rep(i)) Then
@@ -191,7 +191,7 @@ Again:
 
 
 
-        Public Function DeleteWhere(Match As Predicate(Of TEntity)) As Interfaces.Results.IResult Implements IRepository(Of Tkey, TEntity).DeleteWhere
+        Public Function DeleteWhere(Match As Predicate(Of TEntity)) As Results.IResult Implements IRepository(Of Tkey, TEntity).DeleteWhere
             For i = 0 To Rep.Count - 1
                 If Match(Rep(i)) Then
                     Rep.RemoveAt(i)
@@ -201,7 +201,7 @@ Again:
             Return New Results.Result(False, "Δεν μπόρεσε να γίνει διαγραφή!")
         End Function
 
-        Public Function Add(Entity As TEntity) As Interfaces.Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Add
+        Public Function Add(Entity As TEntity) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Add
             Rep.Add(Entity)
             Return New Results.Result(Of TEntity)(True, "Προσθέθηκε με επιτυχία", Entity)
         End Function

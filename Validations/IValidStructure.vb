@@ -1,4 +1,4 @@
-﻿Namespace Interfaces.Validation.Structures
+﻿Namespace Validation.Structures
     Public Interface IObjectOfString
         Enum EnumsStringCase
             None

@@ -1,8 +1,8 @@
-﻿Imports FoundationLibrary.Interfaces.Service
+﻿
 Imports FoundationLibrary.Repositories
-Imports FoundationLibrary.Interfaces.Keys
-Imports FoundationLibrary.Interfaces.Repository
-Imports FoundationLibrary.Interfaces.Results
+Imports FoundationLibrary.Keys
+Imports FoundationLibrary.Repository
+Imports FoundationLibrary.Results
 Imports FoundationLibrary
 Imports FoundationLibrary.Validation.Exceptions
 Namespace Services
@@ -95,7 +95,7 @@ Namespace Services
             End If
         End Function
         Overridable Function Change(Of DTO)(Ref As TEntity, ChangeDTO As DTO, Optional UseCaseLink As IService(Of TEntity, TModel).DelUseCase(Of DTO) = Nothing) As IResult(Of TModel) Implements IService(Of TEntity, TModel).Change
-            Dim ValDTO As Interfaces.Results.IErrResult(Of List(Of Object)) = ToValidation(Of DTO)(ChangeDTO)
+            Dim ValDTO As Results.IErrResult(Of List(Of Object)) = ToValidation(Of DTO)(ChangeDTO)
             If ValDTO.Success = False Then
                 Return New Results.Result(Of TModel)(False, "Διμιουργήθηκαν εξερέσεις στα πεδια!", Nothing)
             End If

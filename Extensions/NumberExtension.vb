@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 
+
+
 Namespace Extensions
     <Extension>
     Module NumberExtension
@@ -72,8 +74,6 @@ Namespace Extensions
             If MaxNumber IsNot Nothing AndAlso MaxNumber <= Number Then Return False
             Return True
 
-
-
         End Function
 
         <Extension>
@@ -81,10 +81,6 @@ Namespace Extensions
             If MinNumber IsNot Nothing AndAlso MinNumber >= Number Then Return False
             If MaxNumber IsNot Nothing AndAlso MaxNumber <= Number Then Return False
             Return True
-
-
-            Dim a As SInteger = CType(-11558, SInteger)
-            Dim c As Long = CType(a, Long)
         End Function
 
         <Extension>

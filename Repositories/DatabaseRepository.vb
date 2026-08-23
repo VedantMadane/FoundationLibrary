@@ -1,6 +1,6 @@
-﻿Imports FoundationLibrary.Interfaces.Keys
-Imports FoundationLibrary.Interfaces.Repository
-Imports FoundationLibrary.Interfaces.Results
+﻿Imports FoundationLibrary.Keys
+Imports FoundationLibrary.Repository
+Imports FoundationLibrary.Results
 Imports database
 Namespace Repositories
     ''' <summary>

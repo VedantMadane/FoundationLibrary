@@ -1,4 +1,4 @@
-﻿Namespace Interfaces.Keys
+﻿Namespace Keys
     Public Interface IBooleanAble
         Property Choice As Boolean
     End Interface

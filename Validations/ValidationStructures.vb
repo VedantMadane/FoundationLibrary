@@ -1,8 +1,8 @@
-﻿Imports FoundationLibrary.Interfaces.Validation.Structures
+﻿Imports FoundationLibrary.Validation.Structures
 
 Namespace Validation.Structures
     Public Class ValidString
-        Implements Interfaces.Validation.Structures.IObjectOfString
+        Implements Validation.Structures.IObjectOfString
 
         Public Property Cases As IObjectOfString.EnumsStringCase Implements IObjectOfString.Cases
         Public Property MinLength As Integer Implements IObjectOfString.MinLength
@@ -15,7 +15,7 @@ Namespace Validation.Structures
         Public Property ValidChars As Char() Implements IObjectOfString.ValidChars
         Public Property ExceptionChars As Char() Implements IObjectOfString.ExceptionChars
 
-        Function Check(Str As String, NameObj As String) As Interfaces.Results.IErrResult(Of List(Of Validation.Exceptions.ErrFields))
+        Function Check(Str As String, NameObj As String) As Results.IErrResult(Of List(Of Validation.Exceptions.ErrFields))
             Dim Validation As New List(Of Validation.Exceptions.IErrors)
 
             If MinLength > Str.Length Then Validation.Add(New Exceptions.ErrFields("Δεν επιτρέπεται το μέγεθος να είναι μικρότερο απο :" & MinLength, NameObj, Str))
@@ -59,13 +59,13 @@ Namespace Validation.Structures
     End Class
 
     Public Class ValidInteger
-        Implements Interfaces.Validation.Structures.IObjectOfInteger
+        Implements Validation.Structures.IObjectOfInteger
 
         Public Property StartNumber As Integer? Implements IObjectOfInteger.StartNumber
         Public Property EndNumber As Integer? Implements IObjectOfInteger.EndNumber
         Public Property ValidNumberChars As Integer() Implements IObjectOfInteger.ValidNumberChars
 
-        Function Check(Str As Integer, NameObj As String) As Interfaces.Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
+        Function Check(Str As Integer, NameObj As String) As Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
 
             Dim Validation As New List(Of Validation.Exceptions.IErrors)
 
@@ -90,14 +90,14 @@ Namespace Validation.Structures
     End Class
 
     Public Class ValidDouble
-        Implements Interfaces.Validation.Structures.IObjectOfDouble
+        Implements Validation.Structures.IObjectOfDouble
 
         Public Property FormatDouble As String Implements IObjectOfDouble.FormatDouble
         Public Property StartNumber As Double? Implements IObjectOfDouble.StartNumber
         Public Property EndNumber As Double? Implements IObjectOfDouble.EndNumber
         Public Property ValidNumber As Double() Implements IObjectOfDouble.ValidNumber
 
-        Function Check(Str As Double, NameObj As String) As Interfaces.Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
+        Function Check(Str As Double, NameObj As String) As Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
 
             Dim Validation As New List(Of Validation.Exceptions.IErrors)
 
@@ -122,14 +122,14 @@ Namespace Validation.Structures
     End Class
 
     Public Class ValidDate
-        Implements Interfaces.Validation.Structures.IObjectOfDate
+        Implements Validation.Structures.IObjectOfDate
 
         Public Property FormatDate As String Implements IObjectOfDate.FormatDate
         Public Property StarDate As Date? Implements IObjectOfDate.StarDate
         Public Property EndDate As Date? Implements IObjectOfDate.EndDate
         Public Property ExceptionsDate As Date() Implements IObjectOfDate.ExceptionsDate
 
-        Function Check(Str As Date, NameObj As String) As Interfaces.Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
+        Function Check(Str As Date, NameObj As String) As Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
             Dim Validation As New List(Of Validation.Exceptions.IErrors)
 
             If StarDate IsNot Nothing AndAlso StarDate > Str Then Validation.Add(New Exceptions.ErrFields("Δεν επιτέπεται ο αριθμός να είναι Μικρότερος: " & StarDate, NameObj, Str))
@@ -150,13 +150,13 @@ Namespace Validation.Structures
 
     End Class
     Public Class ValidBoolean
-        Implements Interfaces.Validation.Structures.IObjectOfBoolean
+        Implements Validation.Structures.IObjectOfBoolean
 
         Public Property TypeFormatBool As String Implements IObjectOfBoolean.TypeFormatBool
         Public Property FormatBoolTrue As String Implements IObjectOfBoolean.FormatBoolTrue
         Public Property FormatBoolFalse As String Implements IObjectOfBoolean.FormatBoolFalse
 
-        Function Check(BoolStr As String, nameObj As String) As Interfaces.Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
+        Function Check(BoolStr As String, nameObj As String) As Results.IErrResult(Of List(Of Validation.Exceptions.IErrors))
             Dim Validation As New List(Of Validation.Exceptions.IErrors)
             If Not FormatBoolTrue = BoolStr Or Not FormatBoolFalse = BoolStr Then Validation.Add(New Validation.Exceptions.ErrFields("Δεν βρέθηκα οι ορησμοί: (True) = " & FormatBoolTrue & ", (False) = " & FormatBoolFalse & " .", nameObj, BoolStr))
             If Validation.Count = 0 Then

@@ -1,6 +1,6 @@
-﻿Imports FoundationLibrary.Interfaces.Keys
-Imports FoundationLibrary.Interfaces.Results
-Namespace Interfaces.Service
+﻿Imports FoundationLibrary.Keys
+Imports FoundationLibrary.Results
+Namespace Services
     ''' <summary>
     ''' Τα βασικά κλειδια που θα χρειαστεις για να διμιουργήσεις Service
     ''' </summary>

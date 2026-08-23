@@ -1,4 +1,4 @@
-﻿Namespace Interfaces.Results
+﻿Namespace Results
 
     Public Interface IResult
         ReadOnly Property Success As Boolean

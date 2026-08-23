@@ -1,6 +1,6 @@
-﻿Imports FoundationLibrary.Interfaces.Keys
+﻿Imports FoundationLibrary.Keys
 
-Namespace Interfaces.Repository
+Namespace Repository
     ''' <summary>
     ''' <strong>To Αποθετήριο μιας βάση δεδομένων</strong><br/>
     ''' όλες οι εντολες που θα χρειάστεις για να κανεις ενα αποθετήριο βάση δεδομένων.
@@ -19,7 +19,7 @@ Namespace Interfaces.Repository
         ''' </summary>
         ''' <param name="Entity">Βάση δεδομένων</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function Create(Entity As TEntity) As Interfaces.Results.IResult(Of TEntity)
+        Function Create(Entity As TEntity) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Προσθέτει την <paramref name="Entity">Βάση δεδομένων</paramref> στο αποθετήριο.
         ''' </summary>
@@ -27,104 +27,104 @@ Namespace Interfaces.Repository
         ''' </example>
         ''' <param name="Entity">Βάση δεδομένων</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function Add(Entity As TEntity) As Interfaces.Results.IResult(Of TEntity)
+        Function Add(Entity As TEntity) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Βάζεις Χειροκίνητα το ID
         ''' </summary>
         ''' <param name="Entity">Βάση δεδομένον</param>
         ''' <param name="PK">Πεδίο του PK</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function TryCreate(Entity As TEntity, PK As Tkey) As Interfaces.Results.IResult(Of TEntity)
+        Function TryCreate(Entity As TEntity, PK As Tkey) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Μεσο του <paramref name="PK"/> αναζηταει στην λιστα που βρίσκεται το πεδιο και αντικατασταει τα δεδομένα μεσο του <paramref name="Entity"/>.
         ''' </summary>
         ''' <param name="PK">To ID τον δεδομένων.</param>
         ''' <param name="Entity">Τα καινούργια δεδομένα</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function Update(PK As Tkey, Entity As TEntity) As Interfaces.Results.IResult(Of TEntity)
+        Function Update(PK As Tkey, Entity As TEntity) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Μεσο του <paramref name="index"/> που βρίσκεται στην λίστα αντικατασταει τα δεδομένα μεσο του <paramref name="Entity"/>.
         ''' </summary>
         ''' <param name="index">Τον αριθμο της καταριθμημένης λίστας</param>
         ''' <param name="Entity">Τα καινούργια δεδομένα</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function UpdateAt(index As Integer, Entity As TEntity) As Interfaces.Results.IResult(Of TEntity)
+        Function UpdateAt(index As Integer, Entity As TEntity) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Μεσο του <paramref name="Match"/> Βρίσκει αμα τα δεδομένα ταιριαζουν μεταξή τους και τα αντικαταστάει με τον συνδεσμο [Deligate] <paramref name="Update"/>.
         ''' </summary>
         ''' <param name="Match"></param>
         ''' <param name="Update"></param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function UpdateWhere(Match As Predicate(Of TEntity), Update As Func(Of TEntity, TEntity)) As Interfaces.Results.IResult(Of TEntity)
+        Function UpdateWhere(Match As Predicate(Of TEntity), Update As Func(Of TEntity, TEntity)) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Βρίσκει ενα απο δεδομενα που πέρασες μεσο <paramref name="Entity"/> αν τερίαζουν και τα διαγράφει.
         ''' </summary>
         ''' <param name="Entity">Δεδομένα</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function Delete(Entity As TEntity) As Interfaces.Results.IResult
+        Function Delete(Entity As TEntity) As Results.IResult
         ''' <summary>
         ''' Βρίσκει το <paramref name="PK"/> του πεδιου σε μια λιστά δεδομένων και διαγραφει τα δεδομένα.
         ''' </summary>
         ''' <param name="PK">Το πεδίο PK</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function Delete(PK As Tkey) As Interfaces.Results.IResult
+        Function Delete(PK As Tkey) As Results.IResult
         ''' <summary>
         ''' Πηγαίνει στον αριθμό μεσο του <paramref name="Index"/> της καταριθμημενης λιστας  και διαγράφει τα δεδομένα της επιλογής.
         ''' </summary>
         ''' <param name="Index">Ο αριθμός επιλογης της καταριθμημενης λίστας.</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function DeleteAt(Index As Integer) As Interfaces.Results.IResult
+        Function DeleteAt(Index As Integer) As Results.IResult
 
         ''' <summary>
         ''' Αναζητάει την αντιστήχηση τον δεδομένον μεσο του <paramref name="Match"/> και διαγράφει τα δεδομένα αν αυτο ειναι εφικτο.
         ''' </summary>
         ''' <param name="Match">Αντιστήχηση δεδομένον</param>
         ''' <returns>Αν εκτελέστηκε με επιτυχία</returns>
-        Function DeleteWhere(Match As Predicate(Of TEntity)) As Interfaces.Results.IResult
+        Function DeleteWhere(Match As Predicate(Of TEntity)) As Results.IResult
         ''' <summary>
         ''' Επιλέγει ολα τα δεδομένα.
         ''' </summary>
         ''' <returns>τα δεδομένα που επιλέχτηκαν.</returns>
-        Function Read_All() As Interfaces.Results.IResult(Of List(Of TEntity))
+        Function Read_All() As Results.IResult(Of List(Of TEntity))
         ''' <summary>
         ''' Επιλέγει το δεδομένο που περιεχει το ιδιο πεδιο με <paramref name="PK"/>.
         ''' </summary>
         ''' <param name="PK">Το Πεδιο του PK</param>
         ''' <returns>τα δεδομένα που επιλέκτηκαν.</returns>
-        Function ReadKey(PK As Tkey) As Interfaces.Results.IResult(Of TEntity)
+        Function ReadKey(PK As Tkey) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Επιλέγει τα δεδομενα με τον αριθμο που καταμετρήθηκε στην αριθμημενη λιστα μεσο του <paramref name="Index"/>
         ''' </summary>
         ''' <param name="Index">O Αριθμος της καταμέτρησης στην αριθμημενης λίστας.</param>
         ''' <returns>τα δεδομένα που επιλέκτηκαν.</returns>
-        Function ReadAt(Index As Integer) As Interfaces.Results.IResult(Of TEntity)
+        Function ReadAt(Index As Integer) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Eπιλέγει <b>ένα απο τα Δεδομενα της λιστας</b> εφώσον πληρη τα κριτιρια μεσο <paramref name="Creteria"/>.
         ''' </summary>
         ''' <typeparam name="TCreteria">Τον δεδομένα τον κριτιριον.</typeparam>
         ''' <param name="Creteria">Τα κριτίρια</param>
         ''' <returns>Τα επιλεγμένα δεδομένα μεσα απο την λίστα δεδομένον.</returns>
-        Function Read(Of TCreteria)(Creteria As TCreteria) As Interfaces.Results.IResult(Of TEntity)
+        Function Read(Of TCreteria)(Creteria As TCreteria) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Eπιλέγει <b>ενα απο τα Δεδομενα της λιστας</b> εφώσον πληρη τα κριτιρια μεσο <paramref name="Match"/>.
         ''' </summary>
         ''' <param name="Match">Τα κριτίτα μεσο Delegate</param>
         ''' <returns>Τα επιλεγμένα δεδομένα μεσα απο την λίστα δεδομένον.</returns>
-        Function Read(Match As Predicate(Of TEntity)) As Interfaces.Results.IResult(Of TEntity)
+        Function Read(Match As Predicate(Of TEntity)) As Results.IResult(Of TEntity)
         ''' <summary>
         ''' Επιλέγει <b>όλα τα Δεδομένα της λίστας</b> εφώσον πληρουν τα κριτιρια μεσο <paramref name="Creteria"/>.
         ''' </summary>
         ''' <typeparam name="TCreteria">Τον δεδομένα τον κριτιριον.</typeparam>
         ''' <param name="Creteria">Τα κριτιρια.</param>
         ''' <returns>Τα επιλεγμένα δεδομένα μεσα απο την λίστα δεδομένον.</returns>
-        Function Search(Of TCreteria)(Creteria As TCreteria) As Interfaces.Results.IResult(Of List(Of TEntity))
+        Function Search(Of TCreteria)(Creteria As TCreteria) As Results.IResult(Of List(Of TEntity))
 
         ''' <summary>
         ''' Επιλέγει <b>όλα τα Δεδομένα της λίστας</b> εφώσον πληρουν τα κριτιρια μεσο <paramref name="Matches"/>.
         ''' </summary>
         ''' <param name="Matches">Τα κριτιρια μεσο Deligate.</param>
         ''' <returns>Τα επιλεγμένα δεδομένα μεσα απο την λίστα δεδομένον.</returns>
-        Function Search(Matches As Predicate(Of TEntity)) As Interfaces.Results.IResult(Of List(Of TEntity))
+        Function Search(Matches As Predicate(Of TEntity)) As Results.IResult(Of List(Of TEntity))
         ''' <summary>
         ''' Διαγράφη ολα τα δεδομένα της λίστας δεδομένων.
         ''' </summary>

@@ -1,4 +1,4 @@
-﻿Imports FoundationLibrary.Interfaces.Keys
+﻿Imports FoundationLibrary.Keys
 
 Namespace Validation.Exceptions
     Public Interface IErrors
