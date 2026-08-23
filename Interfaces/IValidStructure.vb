@@ -39,8 +39,8 @@
 
     Public Interface IObjectOfDouble
         Property FormatDouble As String
-        Property StartNumber As Double
-        Property EndNumber As Double
+        Property StartNumber As Double?
+        Property EndNumber As Double?
         Property ValidNumber As Double()
     End Interface
 End Namespace
