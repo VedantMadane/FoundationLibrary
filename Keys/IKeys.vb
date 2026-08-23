@@ -3,6 +3,15 @@
         Property Choice As Boolean
     End Interface
 
+
+    Public Interface IHasText
+        Property Text As String
+    End Interface
+
+    Public Interface IHasIndexOf(Of TT)
+        Default ReadOnly Property IndexOf(Index As Integer) As Char
+    End Interface
+
     ''' <summary>
     ''' Το Πρωτευον Κλείδι για αναγώρηση Δεδομένων
     ''' </summary>

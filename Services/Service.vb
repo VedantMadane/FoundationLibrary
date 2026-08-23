@@ -3,8 +3,6 @@ Imports FoundationLibrary.Repositories
 Imports FoundationLibrary.Keys
 Imports FoundationLibrary.Repository
 Imports FoundationLibrary.Results
-Imports FoundationLibrary
-Imports FoundationLibrary.Validation.Exceptions
 Namespace Services
     ''' <summary>
     ''' <Title>
@@ -12,7 +10,7 @@ Namespace Services
     ''' </Title>
     ''' <para>Είναι ποιο ασφάλες και δεν μπορει να αλλαξει το αρχικο entity χώρις να περασει καποια εντολη απο τον Service! </para> 
     '''<para><em>
-    ''' Για να λειτουργείσει ο Service και να επικοινωνηση με το Αποθετήριο θα πρέπει στην βάση Δεδομένων να υπαρχει στο <typeparamref name="TEntity"/> το αντιστοιχο κλειδι <see cref="Interfaces.Keys.IHasPrimaryKey(Of T)"/>
+    ''' Για να λειτουργείσει ο Service και να επικοινωνηση με το Αποθετήριο θα πρέπει στην βάση Δεδομένων να υπαρχει στο <typeparamref name="TEntity"/> το αντιστοιχο κλειδι <see cref="Keys.IHasPrimaryKey(Of T)"/>
     ''' </em></para>
     ''' 
     ''' <important>

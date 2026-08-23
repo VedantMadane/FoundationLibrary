@@ -83,14 +83,21 @@
     <Compile Include="Services\IService.vb" />
     <Compile Include="Results\IResults.vb" />
     <Compile Include="Keys\IKeys.vb" />
-    <Compile Include="Validations\IValidStructure.vb" />
+    <Compile Include="Types\TypeBoolean.vb" />
+    <Compile Include="Types\IType.vb" />
     <Compile Include="Extensions\CharExtension.vb" />
     <Compile Include="Extensions\StringExtension.vb" />
     <Compile Include="Results\Result.vb" />
-    <Compile Include="Validations\ValidationStructures.vb" />
-    <Compile Include="Validations\ValidException.vb" />
-    <Compile Include="ValueOfObject\IBaseValue.vb" />
-    <Compile Include="ValueOfObject\ValueOfObject.vb" />
+    <Compile Include="Types\SInteger.vb" />
+    <Compile Include="Types\TypeDate.vb" />
+    <Compile Include="Types\TypeDouble.vb" />
+    <Compile Include="Types\TypeInteger.vb" />
+    <Compile Include="Types\TypeString.vb" />
+    <Compile Include="Validations\ValidDouble.vb" />
+    <Compile Include="Validations\IValidTypes.vb" />
+    <Compile Include="Validations\ValidBoolean.vb" />
+    <Compile Include="Validations\ValidDate.vb" />
+    <Compile Include="ErrorsLib\Error.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -110,6 +117,8 @@
     <Compile Include="Repositories\DatabaseRepository.vb" />
     <Compile Include="Repositories\Repository.vb" />
     <Compile Include="Services\Service.vb" />
+    <Compile Include="Validations\ValidInteger.vb" />
+    <Compile Include="Validations\ValidString.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -131,6 +140,8 @@
     </None>
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DBs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

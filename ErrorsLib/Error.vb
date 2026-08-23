@@ -1,6 +1,6 @@
 ﻿Imports FoundationLibrary.Keys
 
-Namespace Validation.Exceptions
+Namespace Errors
     Public Interface IErrors
         ReadOnly Property Title As String
         ReadOnly Property NameObj As String
