@@ -1,4 +1,4 @@
-﻿Namespace Database
+﻿Namespace Database.Tools
     Public Interface ICommands
         Sub Command(Query As String)
         Sub Command(Query As String, ByRef DataSet As DataSet)

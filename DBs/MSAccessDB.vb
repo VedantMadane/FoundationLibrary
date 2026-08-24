@@ -1,30 +1,22 @@
-﻿Namespace Database
+﻿Imports FoundationLibrary.Database.Tools
+Namespace Database
     Public Class MSAccessOLEDB
-        Implements Database.ICommands
-        Enum TypeProviders
-            Jet4
-            ACE12
-            ACE15
-            ACE16
-        End Enum
+        Implements ICommands
         Private ReadOnly con As OleDb.OleDbConnection
         Private cmd As New OleDb.OleDbCommand
         Private da As New OleDb.OleDbDataAdapter
 
-        Public ReadOnly Version As String
-        Public ReadOnly Source As String
-        Private ReadOnly _username, _Password As String
-        Sub New(Provider As TypeProviders, DataSourse As String, Optional Username As String = Nothing, Optional Password As String = Nothing)
-            Select Case Provider
-                Case TypeProviders.Jet4 : Version = "Microsoft.Jet.OLEDB.4.0"
-                Case TypeProviders.ACE12 : Version = "Microsoft.ACE.OLEDB.12.0"
-                Case TypeProviders.ACE15 : Version = "Microsoft.ACE.OLEDB.15.0"
-                Case TypeProviders.ACE16 : Version = "Microsoft.ACE.OLEDB.16.0"
-            End Select
-            Source = DataSourse
-            _username = Username
-            _Password = Password
-            con = New OleDb.OleDbConnection("Provider=" & Version & ";Data Source=" & DataSourse & ";")
+        Sub New(Provider As Providers.TypeProviders, DataSourse As String)
+            con = New OleDb.OleDbConnection("Provider=" & New Providers(Provider) & ";Data Source=" & DataSourse & ";")
+        End Sub
+        Sub New(Provider As String, DataSource As String)
+            con = New OleDb.OleDbConnection("Provider=" & Provider & ";Data Source=" & DataSource & ";")
+        End Sub
+        Sub New(ConnectionBuild As ConnectionStringBuild)
+            con = New OleDb.OleDbConnection(ConnectionBuild)
+        End Sub
+        Sub New(ConnectionBuild As String)
+            con = New OleDb.OleDbConnection(ConnectionBuild)
         End Sub
 
         Sub Command(Query As String) Implements ICommands.Command

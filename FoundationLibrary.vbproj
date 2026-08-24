@@ -74,8 +74,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBs\ICommands.vb" />
+    <Compile Include="DBs\Tools\ConnectionStringBuild.vb" />
+    <Compile Include="DBs\Tools\ICommands.vb" />
+    <Compile Include="DBs\Tools\Modes.vb" />
     <Compile Include="DBs\MSAccessDB.vb" />
+    <Compile Include="DBs\Tools\Providers.vb" />
     <Compile Include="DBs\Queries.vb" />
     <Compile Include="Extensions\NumberExtension.vb" />
     <Compile Include="Glossary.vb" />
@@ -140,6 +143,8 @@
     </None>
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="StreamFiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
