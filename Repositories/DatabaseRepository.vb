@@ -1,5 +1,5 @@
 ﻿Imports FoundationLibrary.Keys
-Imports FoundationLibrary.Repository
+Imports FoundationLibrary.Repositories
 Imports FoundationLibrary.Results
 Imports FoundationLibrary.Database
 Namespace Repositories
@@ -36,7 +36,7 @@ Namespace Repositories
         MustOverride Function Match(Of TCreteria)(Entity As TEntity, Creteria As TCreteria) As Boolean
 
         Public Sub RemoveAll() Implements IRepository(Of Tkey, TEntity).RemoveAll
-            Database.Command(Queries.DeleteDB(Table))
+            Database.Command(Queries.QDelete(Table))
         End Sub
 
         Public Function GeneredID() As Tkey Implements IRepository(Of Tkey, TEntity).GeneredID
@@ -71,17 +71,17 @@ Again:
                 DT.Clear()
                 GoTo Again
             End If
-            Database.Command(Queries.insertDB(Table, Columns, ConvertRows(Entity)))
+            Database.Command(Queries.QInstert(Table, Columns, ConvertRows(Entity)))
             Return New Results.Result(Of TEntity)(True, "Επυτηχης προσθήκη στην Database", Entity)
         End Function
 
         Public Function Add(Entity As TEntity) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Add
-            Database.Command(Queries.insertDB(Table, Columns, ConvertRows(Entity)))
+            Database.Command(Queries.QInstert(Table, Columns, ConvertRows(Entity)))
             Return New Results.Result(Of TEntity)(True, "Επυτηχης προσθήκη στην Database", Entity)
         End Function
 
         Public Function TryCreate(Entity As TEntity, PK As Tkey) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).TryCreate
-            Database.Command(Queries.insertDB(Table, Columns, ConvertRows(Entity)))
+            Database.Command(Queries.QInstert(Table, Columns, ConvertRows(Entity)))
             Return New Results.Result(Of TEntity)(True, "Επυτηχης προσθήκη στην Database", Entity)
         End Function
 
@@ -99,7 +99,7 @@ Again:
 
         Public Function UpdateAt(index As Integer, Entity As TEntity) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).UpdateAt
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             Dim ID As Integer = DT(index)(0)
             Dim Str As String() = ConvertRows(Entity)
             Dim Str1(Str.Length - 2) As String
@@ -120,15 +120,15 @@ Again:
         End Function
 
         Public Function Delete(PK As Tkey) As IResult Implements IRepository(Of Tkey, TEntity).Delete
-            Database.Command(Queries.DeleteDB(Table, "[ID]=" & CType(PK, Object)))
+            Database.Command(Queries.SelectWhereDB(Table, "[ID]=" & CType(PK, Object)))
             Return New Results.Result(True, "Επυτηχης Διαγραφή στην Database")
         End Function
 
         Public Function DeleteAt(Index As Integer) As IResult Implements IRepository(Of Tkey, TEntity).DeleteAt
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             Dim ID As Integer = DT(Index)(0)
-            Database.Command(Queries.DeleteDB(Table, "[ID]=" & ID))
+            Database.Command(Queries.QDelete(Table, "[ID]=" & ID))
             Return New Results.Result(True, "Επυτηχης Διαγραφή στην Database")
         End Function
 
@@ -139,7 +139,7 @@ Again:
         Public Function Read_All() As IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Read_All
             Dim DT As New DataTable
             Dim ListEntity As New List(Of TEntity)
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
                 ListEntity.Add(ConvertEntity(DT(i)))
             Next
@@ -157,14 +157,14 @@ Again:
 
         Public Function ReadAt(Index As Integer) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).ReadAt
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             Return ConvertEntity(DT(Index))
         End Function
 
 
         Public Function Read(Of TCreteria)(Creteria As TCreteria) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
                 If Match(ConvertEntity(DT(i)), Creteria) Then Return ConvertEntity(DT(i))
             Next
@@ -172,7 +172,7 @@ Again:
 
         Public Function Read(Match As Predicate(Of TEntity)) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
                 If Match(ConvertEntity(DT(i))) Then Return ConvertEntity(DT(i))
             Next
@@ -181,7 +181,7 @@ Again:
         Public Function Search(Of TCreteria)(Creteria As TCreteria) As IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
             Dim Entity As New List(Of TEntity)
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
                 If Match(ConvertEntity(DT(i)), Creteria) Then
                     Entity.Add(ConvertEntity(DT(i)))
@@ -193,7 +193,7 @@ Again:
         Public Function Search(Matches As Predicate(Of TEntity)) As IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
             Dim Entity As New List(Of TEntity)
             Dim DT As New DataTable
-            Database.Command(Queries.SelectDB(Table), DT)
+            Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
                 If Matches(ConvertEntity(DT(i))) Then
                     Entity.Add(ConvertEntity(DT(i)))
@@ -202,7 +202,23 @@ Again:
             Return Entity
         End Function
 
+        Public Function Exist(Of TCreteria)(Creteria As TCreteria) As IResult Implements IRepository(Of Tkey, TEntity).Exist
+            Dim DT As New DataTable
+            Database.Command(Queries.QSelect(Table), DT)
+            For Each Entity In DT.Rows
+                If Match(ConvertEntity(Entity), Creteria) Then Return New Result(True, "Βρέθηκε η εγραφή!")
+            Next
+            Return New Result(False, "Δεν βρέθηκε η εγραφη!")
+        End Function
 
+        Public Function Exist(Matches As Predicate(Of TEntity)) As IResult Implements IRepository(Of Tkey, TEntity).Exist
+            Dim DT As New DataTable
+            Database.Command(Queries.QSelect(Table), DT)
+            For Each Entity In DT.Rows
+                If Matches(ConvertEntity(Entity)) Then Return New Result(True, "Βρέθηκε η εγραφή!")
+            Next
+            Return New Result(False, "Δεν βρέθηκε η εγραφή!")
+        End Function
     End Class
 End Namespace
 

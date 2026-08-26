@@ -1,7 +1,5 @@
-﻿
-Imports FoundationLibrary.Repositories
+﻿Imports FoundationLibrary.Repositories
 Imports FoundationLibrary.Keys
-Imports FoundationLibrary.Repository
 Imports FoundationLibrary.Results
 Namespace Services
     ''' <summary>
@@ -27,7 +25,7 @@ Namespace Services
 
         Public Property Repository As TRepository
 
-        Sub New(RepositoryLink As TRepository)
+        Sub New(RepositoryLink As IRepository(Of TKey, TEntity))
             Repository = RepositoryLink
             AvailableExternalModel = False
         End Sub
@@ -37,7 +35,7 @@ Namespace Services
         Public ReadOnly AvailableExternalModel As Boolean = False
         Public Delegate Function DelMemberizeClone(Entity As TEntity) As TModel
         Public ReadOnly Property ExternalModelMemberizeClone As DelMemberizeClone
-        Sub New(LinkRepository As TRepository, ExternalModelofMemeberizeCloneLink As DelMemberizeClone)
+        Sub New(LinkRepository As IRepository(Of TKey, TEntity), ExternalModelofMemeberizeCloneLink As DelMemberizeClone)
             Repository = LinkRepository
             ExternalModelMemberizeClone = ExternalModelofMemeberizeCloneLink
             AvailableExternalModel = True

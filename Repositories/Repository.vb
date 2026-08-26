@@ -1,5 +1,5 @@
 ﻿Imports FoundationLibrary.Keys
-Imports FoundationLibrary.Repository
+Imports FoundationLibrary.Repositories
 
 Namespace Repositories
     ''' <summary>
@@ -15,6 +15,7 @@ Namespace Repositories
 
 
         Protected Friend Property Rep As New List(Of TEntity)
+        MustOverride Function Match(Of TCreteria)(Entity As TEntity, Creteria As TCreteria) As Boolean
 
         Public Overridable Sub RemoveAll() Implements IRepository(Of Tkey, TEntity).RemoveAll
             Rep.Clear()
@@ -187,7 +188,7 @@ Again:
             Return New Results.Result(Of List(Of TEntity))(False, "Δεν βρέθηκαν εγραφές!")
         End Function
 
-        MustOverride Function Match(Of TCreteria)(Entity As TEntity, Creteria As TCreteria) As Boolean
+
 
 
 
@@ -204,6 +205,20 @@ Again:
         Public Function Add(Entity As TEntity) As Results.IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Add
             Rep.Add(Entity)
             Return New Results.Result(Of TEntity)(True, "Προσθέθηκε με επιτυχία", Entity)
+        End Function
+
+        Public Function Exist(Of TCreteria)(Creteria As TCreteria) As Results.IResult Implements IRepository(Of Tkey, TEntity).Exist
+            For Each Enτity In Rep
+                If Match(Enτity, Creteria) Then Return New Results.Result(True, "Βρέθηκε η εγραφή")
+            Next
+            Return New Results.Result(False, "Δεν βρέθηκε η εγραφή!")
+        End Function
+
+        Public Function Exist(Matches As Predicate(Of TEntity)) As Results.IResult Implements IRepository(Of Tkey, TEntity).Exist
+            For Each Entity In Rep
+                If Matches(Entity) Then Return New Results.Result(True, "Βρεθηκε η εγραφή!")
+            Next
+            Return New Results.Result(False, "Δεν Βρεθηκε η εγραφή!")
         End Function
     End Class
 

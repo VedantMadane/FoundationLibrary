@@ -1,6 +1,6 @@
 ﻿Imports FoundationLibrary.Keys
 
-Namespace Repository
+Namespace Repositories
     ''' <summary>
     ''' <strong>To Αποθετήριο μιας βάση δεδομένων</strong><br/>
     ''' όλες οι εντολες που θα χρειάστεις για να κανεις ενα αποθετήριο βάση δεδομένων.
@@ -111,6 +111,9 @@ Namespace Repository
         ''' <param name="Match">Τα κριτίτα μεσο Delegate</param>
         ''' <returns>Τα επιλεγμένα δεδομένα μεσα απο την λίστα δεδομένον.</returns>
         Function Read(Match As Predicate(Of TEntity)) As Results.IResult(Of TEntity)
+
+        Function Exist(Of TCreteria)(Creteria As TCreteria) As Results.IResult
+        Function Exist(Matches As Predicate(Of TEntity)) As Results.IResult
         ''' <summary>
         ''' Επιλέγει <b>όλα τα Δεδομένα της λίστας</b> εφώσον πληρουν τα κριτιρια μεσο <paramref name="Creteria"/>.
         ''' </summary>
