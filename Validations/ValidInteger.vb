@@ -2,7 +2,7 @@
 Imports FoundationLibrary.Errors
 
 Namespace Validation.Types
-    Structure ValidInteger
+    Public Structure ValidInteger
         Implements Types.IValidInteger
 
         Public Property StartNumber As Integer? Implements IValidInteger.StartNumber

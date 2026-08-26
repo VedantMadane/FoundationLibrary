@@ -15,6 +15,7 @@ Namespace Errors
         Public ReadOnly Property NameObj As String Implements IErrors.NameObj
         Public ReadOnly Property Value As String Implements IErrors.Value
         Public ReadOnly Property Description As String Implements IErrors.Description
+
         Sub New(Title As String, Name As String, Value As String, Optional Description As String = Nothing)
             Me.Title = Title
             Me.NameObj = Name

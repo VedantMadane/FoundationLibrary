@@ -2,6 +2,10 @@
 Imports FoundationLibrary.Repositories
 Imports FoundationLibrary.Results
 Imports FoundationLibrary.Database
+
+
+
+
 Namespace Repositories
     ''' <summary>
     ''' <inheritdoc cref="IRepository(Of Tkey, TEntity)"/><br/><br/>
@@ -41,36 +45,22 @@ Namespace Repositories
 
         Public Function GeneredID() As Tkey Implements IRepository(Of Tkey, TEntity).GeneredID
             Dim rnd As New Random
-            Dim PK As Tkey = CType(0, Object)
+            Dim PrimaryKey As Tkey
             Dim DT As New DataTable
-
-
-Again:
-            Randomize()
-            PK = CType(rnd.Next, Object)
-            Database.Command(Queries.SelectWhereDB(Table, "[ID]=" & CType(PK, Object)), DT)
-
-            If DT.Rows.Count > 0 Then
+            Do
                 DT.Clear()
-                GoTo Again
-            End If
-
-
-            Return PK
+                Randomize()
+                PrimaryKey = CType(rnd.Next, Object)
+                Database.Command(Queries.SelectWhereDB(Table, "[ID]=" & CType(PrimaryKey, Object)), DT)
+            Loop While DT.Rows.Count > 0
+            Return PrimaryKey
         End Function
 
         Public Function Create(Entity As TEntity) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Create
             Dim rnd As New Random
             Dim DT As New DataTable
-Again:
-            Randomize()
-            Entity.PrimaryKey = CType(rnd.Next, Object)
-            Database.Command(Queries.SelectWhereDB(Table, "[ID]=" & CType(Entity.PrimaryKey, Object)), DT)
 
-            If DT.Rows.Count > 0 Then
-                DT.Clear()
-                GoTo Again
-            End If
+            Entity.PrimaryKey = GeneredID()
             Database.Command(Queries.QInstert(Table, Columns, ConvertRows(Entity)))
             Return New Results.Result(Of TEntity)(True, "Επυτηχης προσθήκη στην Database", Entity)
         End Function
@@ -166,17 +156,20 @@ Again:
             Dim DT As New DataTable
             Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
-                If Match(ConvertEntity(DT(i)), Creteria) Then Return ConvertEntity(DT(i))
+                If Match(ConvertEntity(DT(i)), Creteria) Then Return New Results.Result(Of TEntity)(True, "Βρέθηκε εγραφή!", ConvertEntity(DT(i)))
             Next
+            Return New Result(Of TEntity)(False, "Δεν βρέθηκε εγραφή!")
         End Function
 
         Public Function Read(Match As Predicate(Of TEntity)) As IResult(Of TEntity) Implements IRepository(Of Tkey, TEntity).Read
             Dim DT As New DataTable
             Database.Command(Queries.QSelect(Table), DT)
             For i = 0 To DT.Rows.Count - 1
-                If Match(ConvertEntity(DT(i))) Then Return ConvertEntity(DT(i))
+                If Match(ConvertEntity(DT(i))) Then Return New Results.Result(Of TEntity)(True, "Βρέθηκε η εγραφή!", ConvertEntity(DT(i)))
             Next
+            Return New Result(Of TEntity)(False, "Δεν βρέθηκε εγραφή!")
         End Function
+
 
         Public Function Search(Of TCreteria)(Creteria As TCreteria) As IResult(Of List(Of TEntity)) Implements IRepository(Of Tkey, TEntity).Search
             Dim Entity As New List(Of TEntity)

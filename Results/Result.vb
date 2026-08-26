@@ -35,7 +35,7 @@ Namespace Results
         Public ReadOnly Property Success As Boolean Implements IResult.Success
         Public ReadOnly Property Msg As String Implements IResult.Msg
 
-        Sub New(Succ As Boolean, Message As String, ErrorLink As TError)
+        Sub New(Succ As Boolean, Message As String, Optional ErrorLink As TError = Nothing)
             Success = Succ
             Msg = Message
             Err = ErrorLink
@@ -50,7 +50,9 @@ Namespace Results
         Public ReadOnly Property Success As Boolean Implements IResult.Success
         Public ReadOnly Property Msg As String Implements IResult.Msg
 
-        Sub New(Succ As Boolean, Message As String, ErrorLink As TError, Optional ModelLink As TModel = Nothing)
+
+
+        Sub New(Succ As Boolean, Message As String, Optional ErrorLink As TError = Nothing, Optional ModelLink As TModel = Nothing)
             Success = Succ
             Msg = Message
             Model = ModelLink

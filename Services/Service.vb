@@ -24,23 +24,13 @@ Namespace Services
         Implements IService(Of TEntity, TModel)
 
         Public Property Repository As TRepository
+        Delegate Function DelMemberizeClone(Enity As TEntity) As TModel
+
 
         Sub New(RepositoryLink As IRepository(Of TKey, TEntity))
             Repository = RepositoryLink
-            AvailableExternalModel = False
-        End Sub
 
-
-        ' ================ Types For external models ================== 
-        Public ReadOnly AvailableExternalModel As Boolean = False
-        Public Delegate Function DelMemberizeClone(Entity As TEntity) As TModel
-        Public ReadOnly Property ExternalModelMemberizeClone As DelMemberizeClone
-        Sub New(LinkRepository As IRepository(Of TKey, TEntity), ExternalModelofMemeberizeCloneLink As DelMemberizeClone)
-            Repository = LinkRepository
-            ExternalModelMemberizeClone = ExternalModelofMemeberizeCloneLink
-            AvailableExternalModel = True
         End Sub
-        '==============================================================
 
 
         ''' <summary>
@@ -50,7 +40,7 @@ Namespace Services
         ''' <returns>Model</returns>
         MustOverride Function MemberizeClone(Entity As TEntity) As TModel
         MustOverride Function ToEntity(Of DTO)(DTOLink As DTO, Optional Entity As TEntity = Nothing) As TEntity
-        MustOverride Function ToValidation(Of DTO)(DTOLink As DTO) As IErrResult(Of List(Of Object))
+        MustOverride Function ToValidation(Of DTO)(DTOLink As DTO) As IErrResult(Of List(Of Errors.IErrors))
 
         Overridable Function Exist(Ref As TEntity) As IResult(Of TModel) Implements IService(Of TEntity, TModel).Exist
             Dim Entity As TEntity = Repository.ReadKey(Ref.PrimaryKey).Model
@@ -58,16 +48,11 @@ Namespace Services
             If Entity Is Nothing Then
                 Return New Results.Result(Of TModel)(False, "Δεν βρέθηκε η Εγραφή!", Nothing)
             End If
-            If AvailableExternalModel = False Then
-                Model = MemberizeClone(Entity)
-            Else
-                Model = ExternalModelMemberizeClone.Invoke(Entity)
-            End If
+            Model = MemberizeClone(Entity)
             Return New Results.Result(Of TModel)(True, "Βρέθηκε η Εγραφη!", Model)
-
         End Function
         Overridable Function Register(Of DTO)(RegisterDTO As DTO, Optional UseCaseLink As IService(Of TEntity, TModel).DelUseCase(Of DTO) = Nothing) As IResult(Of TModel) Implements IService(Of TEntity, TModel).Register
-            Dim ValDTO As IErrResult(Of List(Of Object)) = ToValidation(Of DTO)(RegisterDTO)
+            Dim ValDTO As IErrResult(Of List(Of Errors.IErrors)) = ToValidation(Of DTO)(RegisterDTO)
             If ValDTO.Success = False Then
                 Return New Results.Result(Of TModel)(False, "Διμιουργήθηκαν εξερέσεις στα πεδια εγραφής!", Nothing)
             End If
@@ -77,21 +62,18 @@ Namespace Services
                     Return New Results.Result(Of TModel)(False, ValUseCase.Msg, Nothing)
                 End If
             End If
+
             Dim Entity As TEntity = ToEntity(RegisterDTO)
-            Dim Model As TModel
-            If Repository.Create(Entity).Success Then
-                If AvailableExternalModel = False Then
-                    Model = MemberizeClone(Entity)
-                Else
-                    Model = ExternalModelMemberizeClone.Invoke(Entity)
-                End If
-                Return New Results.Result(Of TModel)(True, "Επιτυχης Εγραφή !", Model)
+
+            Dim ResultRepo As Results.IResult(Of TEntity) = Repository.Create(Entity)
+            If ResultRepo.Success Then
+                Return New Results.Result(Of TModel)(True, "Επιτυχης Εγραφή !", MemberizeClone(ResultRepo.Model))
             Else
-                Return New Results.Result(Of TModel)(False, "αποτυχία Εγραφής !", Nothing)
+                Return New Results.Result(Of TModel)(False, "Aποτυχία Εγραφής !")
             End If
         End Function
         Overridable Function Change(Of DTO)(Ref As TEntity, ChangeDTO As DTO, Optional UseCaseLink As IService(Of TEntity, TModel).DelUseCase(Of DTO) = Nothing) As IResult(Of TModel) Implements IService(Of TEntity, TModel).Change
-            Dim ValDTO As Results.IErrResult(Of List(Of Object)) = ToValidation(Of DTO)(ChangeDTO)
+            Dim ValDTO As Results.IErrResult(Of List(Of Errors.IErrors)) = ToValidation(Of DTO)(ChangeDTO)
             If ValDTO.Success = False Then
                 Return New Results.Result(Of TModel)(False, "Διμιουργήθηκαν εξερέσεις στα πεδια!", Nothing)
             End If
@@ -111,7 +93,7 @@ Namespace Services
             If RepResult.Success Then
                 Return New Results.Result(Of TModel)(True, "Επιτυχής Αλλαγή!", MemberizeClone(RepResult.Model))
             Else
-                Return New Results.Result(Of TModel)(False, "Αποτηχία Αλλαγής!", Nothing)
+                Return New Results.Result(Of TModel)(False, "Αποτηχία Αλλαγής!")
             End If
         End Function
 
@@ -125,14 +107,11 @@ Namespace Services
         Overridable Function Get_All() As IResult(Of List(Of TModel)) Implements IService(Of TEntity, TModel).Get_All
             Dim Model As New List(Of TModel)
             For Each Entity In Repository.Read_All.Model
-                If AvailableExternalModel = False Then
-                    Model.Add(MemberizeClone(Entity))
-                Else
-                    Model.Add(ExternalModelMemberizeClone.Invoke(Entity))
-                End If
+                Model.Add(MemberizeClone(Entity))
+
             Next
             If Model.Count > 0 Then Return New Results.Result(Of List(Of TModel))(True, "Βρέθηκε Εγραφή!", Model)
-            Return New Results.Result(Of List(Of TModel))(False, "Δεν Βρέθηκε Εγραφή!", Nothing)
+            Return New Results.Result(Of List(Of TModel))(False, "Δεν Βρέθηκε Εγραφή!")
         End Function
 
     End Class

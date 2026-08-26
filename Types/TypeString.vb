@@ -21,7 +21,7 @@ Namespace Types
         End Operator
 
 
-        Private Sub New()
+        Sub New()
             OptionsValid = New ValidString
         End Sub
         Private Sub New(Validations As IValidString)
