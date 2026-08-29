@@ -84,6 +84,11 @@
     <Compile Include="Glossary.vb" />
     <Compile Include="HTML\HTMLBook.vb" />
     <Compile Include="Repositories\IRepository.vb" />
+    <Compile Include="HTML\HTML.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HTML.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\IService.vb" />
     <Compile Include="Results\IResults.vb" />
     <Compile Include="Keys\IKeys.vb" />
@@ -130,6 +135,11 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HTML\HTML.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HTML.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
