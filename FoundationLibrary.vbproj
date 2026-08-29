@@ -82,7 +82,7 @@
     <Compile Include="DBs\Queries.vb" />
     <Compile Include="Extensions\NumberExtension.vb" />
     <Compile Include="Glossary.vb" />
-    <Compile Include="HTML\CodeFile1.vb" />
+    <Compile Include="HTML\HTMLBook.vb" />
     <Compile Include="Repositories\IRepository.vb" />
     <Compile Include="Services\IService.vb" />
     <Compile Include="Results\IResults.vb" />
