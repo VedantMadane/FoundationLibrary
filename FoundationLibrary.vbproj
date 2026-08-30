@@ -83,6 +83,8 @@
     <Compile Include="Extensions\NumberExtension.vb" />
     <Compile Include="Glossary.vb" />
     <Compile Include="HTML\HTMLBook.vb" />
+    <Compile Include="Quiz\QuizController.vb" />
+    <Compile Include="Quiz\QuizData.vb" />
     <Compile Include="Repositories\IRepository.vb" />
     <Compile Include="HTML\HTML.Designer.vb">
       <AutoGen>True</AutoGen>
