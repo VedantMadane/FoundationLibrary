@@ -1,4 +1,4 @@
-﻿Namespace Database
+﻿Namespace Queries
     Public Module Queries
         Function QInstert(bash As String, colthmes As String, thmes() As String) As String
             Dim times As String = Nothing

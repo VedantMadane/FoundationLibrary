@@ -74,19 +74,22 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBs\Tools\ConnectionStringBuild.vb" />
-    <Compile Include="DBs\Tools\ICommands.vb" />
-    <Compile Include="DBs\Tools\Modes.vb" />
-    <Compile Include="DBs\MSAccessDB.vb" />
-    <Compile Include="DBs\Tools\Providers.vb" />
-    <Compile Include="DBs\Queries.vb" />
+    <Compile Include="WebPackages\HTMLAttributes.vb" />
+    <Compile Include="WebPackages\HTMLEvents.vb" />
+    <Compile Include="WebPackages\Structures\HTMLStructures.vb" />
+    <Compile Include="Queries And Database\Tools\ConnectionStringBuild.vb" />
+    <Compile Include="Queries And Database\Tools\ICommands.vb" />
+    <Compile Include="Queries And Database\Tools\Modes.vb" />
+    <Compile Include="Queries And Database\MSAccessDB.vb" />
+    <Compile Include="Queries And Database\Tools\Providers.vb" />
+    <Compile Include="Queries And Database\Queries.vb" />
     <Compile Include="Extensions\NumberExtension.vb" />
     <Compile Include="Glossary.vb" />
-    <Compile Include="HTML\HTMLBook.vb" />
+    <Compile Include="WebPackages\HTMLBook.vb" />
     <Compile Include="Quiz\QuizController.vb" />
     <Compile Include="Quiz\QuizData.vb" />
     <Compile Include="Repositories\IRepository.vb" />
-    <Compile Include="HTML\HTML.Designer.vb">
+    <Compile Include="WebPackages\HTML.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HTML.resx</DependentUpon>
@@ -138,7 +141,7 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HTML\HTML.resx">
+    <EmbeddedResource Include="WebPackages\HTML.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>HTML.Designer.vb</LastGenOutput>
